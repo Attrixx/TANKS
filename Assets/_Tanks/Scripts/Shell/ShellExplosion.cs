@@ -50,6 +50,14 @@ namespace Tanks.Complete
 
                 // Deal this damage to the tank.
                 targetHealth.TakeDamage (damage);
+
+                // If the hit is critical, display the critical effect.
+                CriticalHitManager criticalHitManager = targetRigidbody.GetComponent<CriticalHitManager>();
+
+                if (!criticalHitManager)
+                    continue;
+
+                criticalHitManager.DisplayCritical();
             }
 
             // Destroy the shell.

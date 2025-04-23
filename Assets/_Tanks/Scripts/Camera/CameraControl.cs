@@ -8,12 +8,15 @@ namespace Tanks.Complete
         public float m_ScreenEdgeBuffer = 4f;           // Space between the top/bottom most target and the screen edge.
         public float m_MinSize = 6.5f;                  // The smallest orthographic size the camera can be.
         public Transform[] m_Targets;                   // All the targets the camera needs to encompass.
+        public float shakeMagnitude = 0.3f;            // The magnitude of the shake effect.
 
 
         private Camera m_Camera;                        // Used for referencing the camera.
         private float m_ZoomSpeed;                      // Reference speed for the smooth damping of the orthographic size.
         private Vector3 m_MoveVelocity;                 // Reference velocity for the smooth damping of the position.
         private Vector3 m_DesiredPosition;              // The position the camera is moving towards.
+        private Vector3 originalPosition;               // The original position of the camera rig before shaking.
+        private bool isShaking = false;                // Flag to indicate if the camera is currently shaking.
 
         private Vector3 m_AimToRig;                     // The offset to apply to the position so the child camera aim at the desired point 
 
@@ -43,6 +46,11 @@ namespace Tanks.Complete
 
             // Change the size of the camera based.
             Zoom ();
+
+            if (isShaking)
+            {
+                Shake();
+            }
         }
 
 
@@ -141,6 +149,35 @@ namespace Tanks.Complete
 
             // Find and set the required size of the camera.
             m_Camera.orthographicSize = FindRequiredSize ();
+        }
+
+
+        private void Shake()
+        {
+            float x = Random.Range(-1f, 1f) * shakeMagnitude;
+            float y = Random.Range(-1f, 1f) * shakeMagnitude;
+
+            transform.position = originalPosition + new Vector3(x, y, 0);
+        }
+
+
+        public void StartShake()
+        {
+            if (!isShaking)
+            {
+                isShaking = true;
+                originalPosition = transform.position;
+            }
+        }
+
+
+        public void StopShake()
+        {
+            if (isShaking)
+            {
+                isShaking = false;
+                transform.position = originalPosition;
+            }
         }
     }
 }
