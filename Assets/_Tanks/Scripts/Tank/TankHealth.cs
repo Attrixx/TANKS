@@ -120,6 +120,12 @@ namespace Tanks.Complete
             // Set the flag so that this function is only called once.
             m_Dead = true;
 
+            if (m_ExplosionPrefab)
+            {
+                Instantiate(m_ExplosionPrefab, transform.position, Quaternion.identity);
+                // m_ExplosionAudio.Play();
+            }
+
             // Turn the tank off.
             gameObject.SetActive (false);
         }
