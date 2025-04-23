@@ -7,6 +7,8 @@ namespace Tanks.Complete
     public class TankShooting : MonoBehaviour
     {
         public Rigidbody m_Shell;                   // Prefab of the shell.
+        public GameObject m_MuzzleFlashPrefab;      // Prefab of the muzzle flash effect.
+        public GameObject m_MuzzleFlashTarget;      // The target of the muzzle flash effect. This is used to set the position of the effect.
         public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
         public Slider m_AimSlider;                  // A child of the tank that displays the current launch force.
         public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
@@ -209,7 +211,11 @@ namespace Tanks.Complete
             explosionData.m_ExplosionForce = m_ExplosionForce;
             explosionData.m_ExplosionRadius = m_ExplosionRadius;
             explosionData.m_MaxDamage = m_MaxDamage;
-            
+
+            // Display the muzzle flash at the fire transform.
+            GameObject muzzleFlashInstance =
+                Instantiate(m_MuzzleFlashPrefab, m_MuzzleFlashTarget.transform.position, m_FireTransform.rotation) as GameObject;
+
             // Increase the damage if extra damage PowerUp is active
             if (m_HasSpecialShell)
             {
