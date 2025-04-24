@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.VFX;
 
 namespace Tanks.Complete
 {
@@ -25,6 +28,7 @@ namespace Tanks.Complete
         public bool m_IsComputerControlled = false; // Is this tank player or computer controlled
         [HideInInspector]
         public TankInputUser m_InputUser;            // The Input User component for that tanks. Contains the Input Actions.
+        public GameObject m_BoostFX;
         
         public Rigidbody Rigidbody => m_Rigidbody;
         
@@ -240,6 +244,21 @@ namespace Tanks.Complete
 
             // Apply this rotation to the rigidbody's rotation.
             m_Rigidbody.MoveRotation (m_Rigidbody.rotation * turnRotation);
+        }
+
+        public void Boost (float SpeedMultiplier, float Duration)
+        {
+            StartCoroutine(BoostCoroutine(SpeedMultiplier, Duration));
+        }
+
+        private IEnumerator BoostCoroutine (float SpeedMultiplier, float Duration)
+        {            
+            float currentSpeed = m_Speed;
+            m_BoostFX.SetActive(true);
+            m_Speed *= SpeedMultiplier;
+            yield return new WaitForSeconds(Duration);
+            m_Speed = currentSpeed;
+            m_BoostFX.SetActive (false);
         }
     }
 }
