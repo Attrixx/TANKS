@@ -5,6 +5,7 @@ namespace Tanks.Complete
     public class ShellExplosion : MonoBehaviour
     {
         public LayerMask m_TankMask;                        // Used to filter what the explosion affects, this should be set to "Players".
+        public GameObject m_ShellExplosionFXPrefab;
         [HideInInspector] public float m_MaxLifeTime = 2f;  // The time in seconds before the shell is removed.
 
         // All those are hidden in inspector as they will actually come from the TankShooting scripts
@@ -24,6 +25,11 @@ namespace Tanks.Complete
         {
 			// Collect all the colliders in a sphere from the shell's current position to a radius of the explosion radius.
             Collider[] colliders = Physics.OverlapSphere (transform.position, m_ExplosionRadius, m_TankMask);
+
+            if (m_ShellExplosionFXPrefab)
+            {
+                Instantiate(m_ShellExplosionFXPrefab, gameObject.transform.position, Quaternion.identity);
+            }
 
             // Go through all the colliders...
             for (int i = 0; i < colliders.Length; i++)
@@ -57,7 +63,7 @@ namespace Tanks.Complete
                 if (!criticalHitManager)
                     continue;
 
-                criticalHitManager.DisplayCritical();
+                // criticalHitManager.DisplayCritical();
             }
 
             // Destroy the shell.
