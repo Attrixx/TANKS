@@ -7,7 +7,7 @@ Jean Michel Texture vous présente les ajouts que nous avans fait à ce projet. 
 Nous avons ajouté des powerups reliés à des spawners disséminés sur la carte. Quand un power up est récupéré (il suffit de rentrer dedans pour le ramasser), un autre apparait après un délai sur le spawner. Ils sont au nombre de 2:
 
 - **Speed Boost**: Donne un brève augmentation de vitesse au joueur.
-- **Critical Hit**: Double les dégats infligés par le prochain tir du joueur.
+- **Critical Hit**: Triple les dégats infligés par le prochain tir du joueur.
 
 Le déclenchement d'un coup critique fait aussi un court camera shake.
 

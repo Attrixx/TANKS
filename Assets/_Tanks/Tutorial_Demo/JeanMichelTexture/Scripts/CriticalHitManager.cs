@@ -9,7 +9,6 @@ public class CriticalHitManager : MonoBehaviour
     public Material m_CritcalMaterial;
     public float m_CriticalEffectDuration = 0.5f;
     public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
-    public AudioClip m_CriticalClip;            // Audio that plays when a critical hit is applied.
 
     private float m_CriticalEffectStartTime = 0.12f; // Time when the critical effect started.
 
@@ -22,8 +21,6 @@ public class CriticalHitManager : MonoBehaviour
     private IEnumerator CriticalEffectCoroutine()
     {
         // Play the critical hit sound
-        m_ShootingAudio.clip = m_CriticalClip;
-        m_ShootingAudio.volume = 1.0f;
         m_ShootingAudio.time = m_CriticalEffectStartTime; // Start the audio from the critical hit point
         m_ShootingAudio.Play();
 
@@ -54,9 +51,5 @@ public class CriticalHitManager : MonoBehaviour
         }
 
         cameraShake.StopShake();
-
-        // Reset the audio
-        m_ShootingAudio.volume = 0.2f;
-        m_ShootingAudio.time = 0f;
     }
 }
