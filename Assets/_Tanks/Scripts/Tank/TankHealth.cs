@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Tanks.Complete
@@ -11,11 +12,13 @@ namespace Tanks.Complete
         public Color m_FullHealthColor = Color.green;    // The color the health bar will be when on full health.
         public Color m_ZeroHealthColor = Color.red;      // The color the health bar will be when on no health.
         public GameObject m_ExplosionPrefab;                // A prefab that will be instantiated in Awake, then used whenever the tank dies.
+        public AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes.
         public AudioClip m_ExplosionSound;
+        public float m_ExplosionDuration = 1.5f;
+        public GameObject m_TankRenderers;
         [HideInInspector] public bool m_HasShield;          // Has the tank picked up a shield power up?
         
         
-        private AudioSource m_ExplosionAudio;               // The audio source to play when the tank explodes.
         private float m_CurrentHealth;                      // How much health the tank currently has.
         private bool m_Dead;                                // Has the tank been reduced beyond zero health yet?
         private float m_ShieldValue;                        // Percentage of reduced damage when the tank has a shield.
@@ -118,6 +121,11 @@ namespace Tanks.Complete
 
         private void OnDeath ()
         {
+            StartCoroutine(OnDeathCoroutine ());
+        }
+
+        private IEnumerator OnDeathCoroutine ()
+        {
             // Set the flag so that this function is only called once.
             m_Dead = true;
 
@@ -130,8 +138,11 @@ namespace Tanks.Complete
                 m_ExplosionAudio.PlayOneShot(m_ExplosionSound);
             }
 
-            // Turn the tank off.
-            gameObject.SetActive (false);
+            // Hide the tank
+            m_TankRenderers.SetActive(false);
+
+            yield return new WaitForSeconds(m_ExplosionDuration);
+            gameObject.SetActive(false);
         }
     }
 }
