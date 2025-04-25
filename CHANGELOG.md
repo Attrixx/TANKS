@@ -37,7 +37,7 @@ Nous avons utilisé exclusivement la carte du désert, pour y incorporer un shad
 
 ## VFX
 
-**VFX_Explosion**: Explosion des bolles à l'impact.
+**VFX_Explosion**: Explosion des balles à l'impact.
 
 **VFX_Flames**: Effet de flammes à l'arrière du tank pendant le Speed Boost.
 
