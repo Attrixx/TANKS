@@ -120,9 +120,9 @@ Shader "Custom/URP_Lit_Outline"
             Varyings vert (Attributes IN)
             {
                 Varyings OUT;
-                float3 norm = normalize(IN.normalOS);
-                float3 pos = IN.positionOS.xyz + norm * 0.05;
-                OUT.positionHCS = TransformObjectToHClip(pos);
+                float3 norm = TransformObjectToWorldNormal(IN.normalOS);
+                float3 pos = TransformObjectToWorld(IN.positionOS.xyz) + norm * 0.05;
+                OUT.positionHCS = TransformWorldToHClip(pos);
                 return OUT;
             }
 
