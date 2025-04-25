@@ -21,6 +21,7 @@ namespace Tanks.Complete
         [Tooltip("If set to true, the tank auto orient and move toward the pressed direction instead of rotating on left/right and move forward on up")]
         public bool m_IsDirectControl;
         public AudioSource m_MovementAudio;         // Reference to the audio source used to play engine sounds. NB: different to the shooting audio source.
+        public AudioSource m_LoopAudioSource;
         public AudioClip m_EngineIdling;            // Audio to play when the tank isn't moving.
         public AudioClip m_EngineDriving;           // Audio to play when the tank is moving.
 		public float m_PitchRange = 0.2f;           // The amount by which the pitch of the engine noises can vary.
@@ -29,6 +30,7 @@ namespace Tanks.Complete
         [HideInInspector]
         public TankInputUser m_InputUser;            // The Input User component for that tanks. Contains the Input Actions.
         public GameObject m_BoostFX;
+        public AudioClip m_BoostClip;
         
         public Rigidbody Rigidbody => m_Rigidbody;
         
@@ -43,6 +45,7 @@ namespace Tanks.Complete
         
         private InputAction m_MoveAction;             // The InputAction used to move, retrieved from TankInputUser
         private InputAction m_TurnAction;             // The InputAction used to shot, retrieved from TankInputUser
+        private bool m_IsBoosting = false;
 
         private Vector3 m_RequestedDirection;       // In Direct Control mode, store the direction the user *wants* to go toward
         
@@ -248,6 +251,8 @@ namespace Tanks.Complete
 
         public void Boost (float SpeedMultiplier, float Duration)
         {
+            if (m_IsBoosting) return;
+            m_IsBoosting = true;
             StartCoroutine(BoostCoroutine(SpeedMultiplier, Duration));
         }
 
@@ -256,9 +261,12 @@ namespace Tanks.Complete
             float currentSpeed = m_Speed;
             m_BoostFX.SetActive(true);
             m_Speed *= SpeedMultiplier;
+            m_LoopAudioSource.PlayOneShot(m_BoostClip);
             yield return new WaitForSeconds(Duration);
             m_Speed = currentSpeed;
+            m_LoopAudioSource.Stop();
             m_BoostFX.SetActive (false);
+            m_IsBoosting = false;
         }
     }
 }
