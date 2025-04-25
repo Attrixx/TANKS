@@ -79,7 +79,7 @@ namespace Tanks.Complete
         /// </summary>
         public void DisableActiveHUD()
         {
-            m_ActivePowerUpHUD.SetActive(false);
+            //m_ActivePowerUpHUD.SetActive(false);
             m_ActivePowerUpHUD = null;
             m_HasActivePowerUp = false;
             m_DisplayTime = 0f;
