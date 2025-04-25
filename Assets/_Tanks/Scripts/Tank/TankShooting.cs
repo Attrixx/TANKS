@@ -9,6 +9,7 @@ namespace Tanks.Complete
         public Rigidbody m_Shell;                   // Prefab of the shell.
         public GameObject m_MuzzleFlashPrefab;      // Prefab of the muzzle flash effect.
         public GameObject m_MuzzleFlashTarget;      // The target of the muzzle flash effect. This is used to set the position of the effect.
+        public GameObject m_MuzzleSmokePrefab;      // Prefab of the muzzle smoke effect.
         public Transform m_FireTransform;           // A child of the tank where the shells are spawned.
         public Slider m_AimSlider;                  // A child of the tank that displays the current launch force.
         public AudioSource m_ShootingAudio;         // Reference to the audio source used to play the shooting audio. NB: different to the movement audio source.
@@ -211,6 +212,7 @@ namespace Tanks.Complete
             explosionData.m_ExplosionForce = m_ExplosionForce;
             explosionData.m_ExplosionRadius = m_ExplosionRadius;
             explosionData.m_MaxDamage = m_MaxDamage;
+            explosionData.m_IsCriticalShell = false;
 
             // Display the muzzle flash at the fire transform.
             GameObject muzzleFlashInstance =
@@ -220,9 +222,12 @@ namespace Tanks.Complete
             if (m_HasSpecialShell)
             {
                 explosionData.m_MaxDamage *= m_SpecialShellMultiplier;
+                explosionData.m_IsCriticalShell = true;
                 // Reset the default values after increasing the damage of the fired shell
                 m_HasSpecialShell = false;
                 m_SpecialShellMultiplier = 1f;
+
+                m_MuzzleSmokePrefab.SetActive(false);
                 
                 PowerUpDetector powerUpDetector = GetComponent<PowerUpDetector>();
                 if (powerUpDetector != null)
@@ -248,6 +253,7 @@ namespace Tanks.Complete
         {
             m_HasSpecialShell = true;
             m_SpecialShellMultiplier = damageMultiplier;
+            m_MuzzleSmokePrefab.SetActive(true);
         }
 
         /// <summary>
