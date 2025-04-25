@@ -9,6 +9,8 @@ Nous avons ajouté des powerups reliés à des spawners disséminés sur la cart
 - **Speed Boost**: Donne un brève augmentation de vitesse au joueur.
 - **Critical Hit**: Double les dégats infligés par le prochain tir du joueur.
 
+Le déclenchement d'un coup critique fait aussi un court camera shake.
+
 ## Détails
 
 Nous avons utilisé exclusivement la carte du désert, pour y incorporer un shader post processing de chaleur. Chaque tank est outliné et a des muzzles flashs à chaque tir. Quand un power up est récupéré, un indicateur le montre sur le tank (feu à l'arrière pour le boost, fumée au canon pour le coup critique). Quand un tank meurt, il explose. Chaque balle tirée explose à l'impact.  
