@@ -42,6 +42,7 @@ namespace Tanks.Complete
             m_HasShield = false;
             m_ShieldValue = 0;
             m_IsInvincible = false;
+            m_TankRenderers.SetActive(true);
 
             // Update the health slider's value and color.
             SetHealthUI();
